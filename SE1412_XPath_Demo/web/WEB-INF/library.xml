@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <book id="B01">
+        <booktitle>The Firm</booktitle>
+        <author>John Grisham</author>
+        <price>99</price>
+    </book>
+    <book id="B02">
+        <booktitle>Coma</booktitle>
+        <author>Robin Cook</author>
+        <price>99.5</price>
+    </book>
+    <book id="B03">
+        <booktitle>The Firm</booktitle>
+        <author>
+            <firstname>Rebecca</firstname>
+            <lastname>Moore</lastname>
+        </author>
+        <price>35</price>
+    </book>
+    <book id="B04">
+        <booktitle>The Firm</booktitle>
+        <author>
+            <firstname>John</firstname>
+            <lastname>Grisham</lastname>
+        </author>
+        <price>40</price>
+    </book>
+</library>

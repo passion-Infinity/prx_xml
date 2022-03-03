@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customers xmlns="http://xml.netbeans.org/schema/customers">
+<!--    <customer>
+        <customerid>123456</customerid>
+        <name>ThanhPC</name>
+        <address>123 ABC Address</address>
+        <city>HCM</city>
+        <phone>12345678</phone>
+    </customer>-->
+    <customer>
+        <customerid>123444</customerid>
+        <name>HoaDNT</name>
+        <address>123 ABC Address</address>
+        <city>HCM</city>
+        <phone>209309403</phone>
+    </customer>
+    <customer>
+        <customerid>123555</customerid>
+        <name>KhanhKT</name>
+        <address>123 ABC Address</address>
+        <city>HCM</city>
+        <phone>12223434</phone>
+    </customer>
+    <customer>
+        <customerid>123666</customerid>
+        <name>DanhNLC</name>
+        <address>123 ABC Address</address>
+        <city>HCM</city>
+        <phone>0090909</phone>
+    </customer>
+</customers>

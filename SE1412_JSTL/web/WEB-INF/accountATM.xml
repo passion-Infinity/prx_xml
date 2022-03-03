@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customers xmlns:account="abc.vn">
+    <account:allowed username="thanhpc" balance="200">
+        <fullname>Pham Cong Thanh</fullname>
+        <address>123 abc HCM</address>
+        <pin>1</pin>
+        <class>D</class>
+        <transactions>
+            <transaction>
+                <id>25022211</id>
+                <date>2022/02/25</date>
+                <amount>50</amount>
+                <type>1</type>
+            </transaction>
+            <transaction>
+                <id>25022212</id>
+                <date>2022/02/25</date>
+                <amount>200</amount>
+                <type>1</type>
+            </transaction>
+            <transaction>
+                <id>25022201</id>
+                <date>2022/02/26</date>
+                <amount>60</amount>
+                <type>0</type>
+            </transaction>
+        </transactions>
+    </account:allowed>
+    <account:expired username="test" balance="200">
+        <fullname>Pham Cong Thanh</fullname>
+        <address>123 abc HCM</address>
+        <pin>1</pin>
+        <class>D</class>
+        <transactions>
+            <transaction>
+                <id>25022201</id>
+                <date>2022/02/26</date>
+                <amount>60</amount>
+                <type>0</type>
+            </transaction>
+        </transactions>
+    </account:expired>
+</customers>

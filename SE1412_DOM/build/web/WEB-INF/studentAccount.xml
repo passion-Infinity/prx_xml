@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><students>
+    <student class="SE1412" id="1">
+        <lastname>Pham</lastname>
+        <middlename>Cong</middlename>
+        <firstname>Thanh</firstname>
+        <sex>0</sex>
+        <password>1</password>
+        <address>HCM</address>
+        <status>studying</status>
+    </student>
+    <student class="SE1412" id="2">
+        <lastname>Doan</lastname>
+        <middlename>Nguyen Thanh</middlename>
+        <firstname>Hoa</firstname>
+        <sex>0</sex>
+        <password>1</password>
+        <address>LA</address>
+        <status>break</status>
+    </student>
+    
+</students>

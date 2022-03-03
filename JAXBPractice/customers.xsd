@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xsd:schema version="1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/customers"
+            xmlns="http://xml.netbeans.org/schema/customers"
+            elementFormDefault="qualified">
+    <!--<xsd:element name="customer" type="Customer" />-->
+    <xsd:element name="customers">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="customer" type="Customer" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:complexType name="Customer">
+        <xsd:sequence>
+            <xsd:element name="customerid" type="xsd:string" />
+            <xsd:element name="name" type="xsd:string" />
+            <xsd:element name="address" type="xsd:string" />
+            <xsd:element name="city" type="xsd:string" />
+            <xsd:element name="phone" type="xsd:positiveInteger" />
+            <xsd:element name="zipcode" type="xsd:positiveInteger" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
+
+<!--<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/abstractType"
+            xmlns="http://xml.netbeans.org/schema/abstractType"
+            elementFormDefault="qualified">
+    <xsd:complexType name="Measurement">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:integer">
+                <xsd:attribute name="units" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:element name="Weight" type="Measurement"/>
+    <xsd:element name="Name" type="xsd:string"/>
+    <xsd:complexType name="Animal" abstract="true">
+        <xsd:sequence>
+            <xsd:element ref="Name"/>
+            <xsd:element ref="Weight"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MamalAnimal" abstract="true">
+        <xsd:complexContent>
+            <xsd:extension base="Animal"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="Dog">
+        <xsd:complexContent>
+            <xsd:extension base="MamalAnimal"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="Bird">
+        <xsd:complexContent>
+            <xsd:extension base="Animal">
+                <xsd:sequence>
+                    <xsd:element name="WingSpan" type="Measurement"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="Animals">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Animal" type="MamalAnimal" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>-->
