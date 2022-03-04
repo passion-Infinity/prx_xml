@@ -40,12 +40,16 @@ public class SearchController extends HttpServlet {
                     .queryParam("title", search)
                     .request(MediaType.APPLICATION_XML_TYPE)
                     .get(Response.class);
-            List<NewsDTO> list = serviceResponse.readEntity(new GenericType<List<NewsDTO>>() {
-            });
-            if (serviceResponse.getStatus() == 200) {
-                request.setAttribute("INFO", list);
-                request.getRequestDispatcher("result.jsp").forward(request, response);
-            }
+//            List<NewsDTO> list = serviceResponse.readEntity(new GenericType<List<NewsDTO>>() {
+//            });
+//            if (serviceResponse.getStatus() == 200) {
+//                request.setAttribute("INFO", list);
+//                request.getRequestDispatcher("result.jsp").forward(request, response);
+//            }
+            String s = serviceResponse.readEntity(String.class);
+//            System.out.println(s);
+            out.println(s);
+             // description - id - link - pubDate - title
         }
     }
 
