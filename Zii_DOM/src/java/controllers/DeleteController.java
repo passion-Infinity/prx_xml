@@ -6,8 +6,8 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,35 +21,37 @@ import utils.XMLUtils;
  *
  * @author PC
  */
+@WebServlet(name = "DeleteController", urlPatterns = {"/DeleteController"})
 public class DeleteController extends HttpServlet {
-    
-    private static final String XMLFILE = "/WEB-INF/studentAccount.xml";
+
+    private static final String SUCCESS = "SearchController";
     private static final String ERROR = "error.jsp";
-    private static final String SUCCESS = "search.jsp";
+    private static final String XMLFILE = "WEB-INF/students.xml";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-           String id = request.getParameter("txtID");
-           String realPath = getServletContext().getRealPath("/");
+            String cardId = request.getParameter("txtCardId");
+            String realPath = getServletContext().getRealPath("/");
             String filePath = realPath + XMLFILE;
-            Document doc = XMLUtils.parseFileToDOM(filePath);
-            if(doc != null) {
-                String exp = "//student[@id='" + id + "']";
+            Document doc = XMLUtils.parseFileWithDOM(filePath);
+            if (doc != null) {
+                String expression = "//student[@cardId='" + cardId + "']";
                 XPath xPath = XMLUtils.createXPath();
-                Node node = (Node)xPath.evaluate(exp, doc, XPathConstants.NODE);
-                if(node != null) {
-                    Node parent = node.getParentNode();
-                    parent.removeChild(node);
-                    boolean result = XMLUtils.writeXML(doc, filePath);
-                    if(result) {
+                Node student = (Node) xPath.evaluate(expression, doc, XPathConstants.NODE);
+                if (student != null) {
+                    Node parent = student.getParentNode();
+                    parent.removeChild(student);
+                    boolean check = XMLUtils.writeToFile(filePath, doc);
+                    if (check) {
                         url = SUCCESS;
                     }
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

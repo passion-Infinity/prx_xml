@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <h1>Login With DOM</h1>
+        <form action="LoginController" method="post">
+            Card Identify: <input type="text" name="txtCardID"/><br/>
+            Password: <input type="password" name="txtPassword"/><br/>
+            <input type="submit" value="Login"/>
+        </form><br/>
+        <a style="cursor: pointer; text-decoration: underline; color: blue" id="onClickCreate">Create a new student</a>
+
+        <form id="createForm" method="post" action="CreateController" hidden="true">
+            <h2>Create Student</h2>
+            Card Identify: <input type="text" name="txtCardId" /><br/>
+            Password: <input type="password" name="txtPassword"/><br/>
+            First name: <input type="text" name="txtFirstname" /><br/>
+            Middle name: <input type="text" name="txtMiddlename" /><br/>
+            Last name: <input type="text" name="txtLastname" /><br/>
+            Address: <input type="text" name="txtAddress" /><br/>
+            Sex: <select name="cboSex">
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+            </select> <br/>
+            Status <select name="cboStatus">
+                <option value="studying">studying</option>
+                <option value="breaking">breaking</option>
+                <option value="dropout">dropout</option>
+            </select> <br/>
+            <input type="submit" value="Create"/>
+        </form>
+    </body>
+    <script>
+        $('#onClickCreate').click(function () {
+            $('#createForm').show();
+        })
+    </script>
+</html>

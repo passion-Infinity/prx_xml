@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+    <student cardId="danhnlc" class="SE">
+        <password>1</password>
+        <firstname>Nguyen</firstname>
+        <middlename>Lam Cong</middlename>
+        <lastname>Danh</lastname>
+        <address>BD</address>
+        <sex>0</sex>
+        <status>studying</status>
+    </student>
+    <student cardId="sauvt" class="SE">
+        <password>1</password>
+        <firstname>Vo</firstname>
+        <middlename>Thi</middlename>
+        <lastname>Sau</lastname>
+        <address>SG</address>
+        <sex>1</sex>
+        <status>breaking</status>
+    </student>
+    <student cardId="daoth" class="SE">
+        <password>1</password>
+        <firstname>Tran</firstname>
+        <middlename>Hung</middlename>
+        <lastname>Dao</lastname>
+        <address>HN</address>
+        <sex>0</sex>
+        <status>dropout</status>
+    </student>
+</students>

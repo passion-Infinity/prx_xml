@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><students>
-    <student class="SE1412" id="1">
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+    <student id="1" class="SE1412">
         <lastname>Pham</lastname>
         <middlename>Cong</middlename>
         <firstname>Thanh</firstname>
@@ -8,7 +9,7 @@
         <address>HCM</address>
         <status>studying</status>
     </student>
-    <student class="SE1412" id="2">
+    <student id="2" class="SE1412">
         <lastname>Doan</lastname>
         <middlename>Nguyen Thanh</middlename>
         <firstname>Hoa</firstname>
@@ -17,5 +18,13 @@
         <address>LA</address>
         <status>break</status>
     </student>
-    
+    <student id="3" class="SE1412">
+        <lastname>Nguyen</lastname>
+        <middlename>Van</middlename>
+        <firstname>A</firstname>
+        <sex>1</sex>
+        <password>1</password>
+        <address>HCM</address>
+        <status>dropout</status>
+    </student>
 </students>

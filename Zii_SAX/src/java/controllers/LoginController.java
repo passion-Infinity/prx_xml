@@ -6,50 +6,46 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import javax.servlet.http.HttpSession;
+import sax.StudentHandler;
 import utils.XMLUtils;
 
 /**
  *
  * @author PC
  */
-public class DeleteController extends HttpServlet {
+@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
+public class LoginController extends HttpServlet {
     
-    private static final String XMLFILE = "/WEB-INF/studentAccount.xml";
-    private static final String ERROR = "error.jsp";
     private static final String SUCCESS = "search.jsp";
+    private static final String ERROR = "error.jsp";
+    private static final String XMLFILE = "WEB-INF/students.xml";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-           String id = request.getParameter("txtID");
-           String realPath = getServletContext().getRealPath("/");
+            String cardId = request.getParameter("txtCardID");
+            String password = request.getParameter("txtPassword");
+            
+            String realPath = getServletContext().getRealPath("/");
             String filePath = realPath + XMLFILE;
-            Document doc = XMLUtils.parseFileToDOM(filePath);
-            if(doc != null) {
-                String exp = "//student[@id='" + id + "']";
-                XPath xPath = XMLUtils.createXPath();
-                Node node = (Node)xPath.evaluate(exp, doc, XPathConstants.NODE);
-                if(node != null) {
-                    Node parent = node.getParentNode();
-                    parent.removeChild(node);
-                    boolean result = XMLUtils.writeXML(doc, filePath);
-                    if(result) {
-                        url = SUCCESS;
-                    }
-                }
+            StudentHandler handler = new StudentHandler(cardId, password);
+            XMLUtils.parseFileWithSAX(filePath, handler);
+            
+            if(handler.isFound()) {
+                url = SUCCESS;
+                HttpSession session = request.getSession();
+                session.setAttribute("FULLNAME", handler.getFullname());
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

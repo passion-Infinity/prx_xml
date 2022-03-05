@@ -8,6 +8,7 @@ package controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,40 +16,65 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import utils.XMLUtils;
 
 /**
  *
  * @author PC
  */
-public class DeleteController extends HttpServlet {
-    
-    private static final String XMLFILE = "/WEB-INF/studentAccount.xml";
-    private static final String ERROR = "error.jsp";
+@WebServlet(name = "UpdateController", urlPatterns = {"/UpdateController"})
+public class UpdateController extends HttpServlet {
+
     private static final String SUCCESS = "search.jsp";
+    private static final String ERROR = "error.jsp";
+    private static final String XMLFILE = "WEB-INF/students.xml";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-           String id = request.getParameter("txtID");
-           String realPath = getServletContext().getRealPath("/");
+            String cardId = request.getParameter("txtCardId");
+            String password = request.getParameter("txtPassword");
+            String firstname = request.getParameter("txtFirstname");
+            String middlename = request.getParameter("txtMiddlename");
+            String lastname = request.getParameter("txtLastname");
+            String address = request.getParameter("txtAddress");
+
+            String realPath = getServletContext().getRealPath("/");
             String filePath = realPath + XMLFILE;
-            Document doc = XMLUtils.parseFileToDOM(filePath);
-            if(doc != null) {
-                String exp = "//student[@id='" + id + "']";
+            Document doc = XMLUtils.parseFileWithDOM(filePath);
+
+            if (doc != null) {
+                String expression = "//student[@cardId='" + cardId + "']";
                 XPath xPath = XMLUtils.createXPath();
-                Node node = (Node)xPath.evaluate(exp, doc, XPathConstants.NODE);
-                if(node != null) {
-                    Node parent = node.getParentNode();
-                    parent.removeChild(node);
-                    boolean result = XMLUtils.writeXML(doc, filePath);
-                    if(result) {
+                Node student = (Node) xPath.evaluate(expression, doc, XPathConstants.NODE);
+                if (student != null) {
+                    NodeList children = student.getChildNodes();
+                    for (int i = 0; i < children.getLength(); i++) {
+                        Node tmp = children.item(i);
+                        if (tmp.getNodeName().equals("firstname")) {
+                            tmp.setTextContent(firstname);
+                        } else if (tmp.getNodeName().equals("middlename")) {
+                            tmp.setTextContent(middlename);
+                        } else if (tmp.getNodeName().equals("lastname")) {
+                            tmp.setTextContent(lastname);
+                        } else if (tmp.getNodeName().equals("address")) {
+                            tmp.setTextContent(address);
+                        } else if (tmp.getNodeName().equals("password")) {
+                            if(!password.equals("")) {
+                                tmp.setTextContent(password);
+                            }
+                        }
+                    }
+                    boolean check = XMLUtils.writeToFile(filePath, doc);
+                    if (check) {
                         url = SUCCESS;
                     }
                 }
             }
+
         } catch (Exception e) {
         } finally {
             request.getRequestDispatcher(url).forward(request, response);

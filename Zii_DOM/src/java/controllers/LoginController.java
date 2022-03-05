@@ -12,63 +12,85 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamReader;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import utils.XMLUtils;
 
 /**
  *
  * @author PC
  */
-@WebServlet(name = "LoginStAXController", urlPatterns = {"/LoginStAXController"})
-public class LoginStAXController extends HttpServlet {
+@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
+public class LoginController extends HttpServlet {
     
-    private final String XMLFIlE = "/WEB-INF/studentAccount.xml";
-    private final String ERROR = "error.jsp";
-    private final String SUCCESS = "search.jsp";
+    private static final String SUCCESS = "search.jsp";
+    private static final String ERROR = "error.jsp";
+    private static final String XMLFILE = "WEB-INF/students.xml";
+    
+    private String fullname = "";
+    private boolean found = false;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String username = request.getParameter("txtUsername");
+            String cardId = request.getParameter("txtCardID");
             String password = request.getParameter("txtPassword");
             String realPath = getServletContext().getRealPath("/");
-            String filePath = realPath + XMLFIlE;
-            boolean found = false;
-            String fullname = "";
-            XMLStreamReader reader = XMLUtils.parseFileWithStAX(filePath);
-            while (reader.hasNext()) {
-                int cursor = reader.next();
-                if (cursor == XMLStreamConstants.START_ELEMENT) {
-                    String tagName = reader.getLocalName();
-                    if (tagName.equals("student")) {
-                        String id = reader.getAttributeValue("", "id");
-                        if (id.equals(username)) {
-                            fullname = XMLUtils.getTextContent(reader, "lastname".trim());
-                            fullname = fullname + " " + XMLUtils.getTextContent(reader, "middlename".trim());
-                            fullname = fullname + " " + XMLUtils.getTextContent(reader, "firstname".trim());
-                            String pass = XMLUtils.getTextContent(reader, "password");
-                            if (pass.trim().equals(password)) {
-                                String status = XMLUtils.getTextContent(reader, "status".trim());
-                                if (!status.equals("dropout")) {
-                                    found = true;
-                                    break;
-                                }
-                            }
+            String filePath = realPath + XMLFILE;
+            Document doc = XMLUtils.parseFileWithDOM(filePath);
+            checkLogin(cardId, password, doc);
+            if (found) {
+                HttpSession session = request.getSession();
+                session.setAttribute("FULLNAME", fullname);
+                url = SUCCESS;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
+        }
+    }
+    
+    private void checkLogin(String cardId, String password, Node node) throws Exception {
+        if (node == null) {
+            return;
+        }
+        
+        if (node.getNodeName().equals("student")) {
+            String id = node.getAttributes().getNamedItem("cardId").getNodeValue();
+            if (cardId.equals(id)) {
+                NodeList children = node.getChildNodes();
+                for (int i = 0; i < children.getLength(); i++) {
+                    Node tmp = children.item(i);
+                    if (tmp.getNodeName().equals("password")) {
+                        String pass = tmp.getTextContent().trim();
+                        if (!pass.equals(password)) {
+                            break;
+                        }
+                    } else if (tmp.getNodeName().equals("firstname")) {
+                        fullname = tmp.getTextContent().trim();
+                    } else if (tmp.getNodeName().equals("middlename")) {
+                        fullname = fullname + " " + tmp.getTextContent().trim();
+                    } else if (tmp.getNodeName().equals("lastname")) {
+                        fullname = fullname + " " + tmp.getTextContent().trim();
+                    } else if (tmp.getNodeName().equals("status")) {
+                        String status = tmp.getTextContent().trim();
+                        if (!status.equals("dropout")) {
+                            found = true;
+                            return;
                         }
                     }
                 }
             }
-            if (found) {
-                url = SUCCESS;
-                HttpSession session = request.getSession();
-                session.setAttribute("FULLNAME", fullname);
-            }
-        } catch (Exception e) {
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+        }
+        
+        int count = 0;
+        NodeList students = node.getChildNodes();
+        while (count < students.getLength()) {
+            checkLogin(cardId, password, students.item(count++));
         }
     }
 
